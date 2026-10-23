@@ -1,0 +1,733 @@
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+:root {
+  font-family:
+    Inter,
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color: #24211d;
+  background: #faf7ee;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+}
+
+
+/* =========================================================
+   APPLICATION
+   ========================================================= */
+
+.app {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #faf7ee;
+  color: #24211d;
+}
+
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  min-height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 12px 5%;
+
+  background: rgba(243, 236, 224, 0.96);
+
+  border-bottom: 1px solid #ddd4bf;
+
+  backdrop-filter: blur(10px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  cursor: pointer;
+}
+
+.brand-logo {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #2d6a4f;
+  color: white;
+
+  font-size: 21px;
+
+  box-shadow:
+    0 4px 10px rgba(45, 106, 79, 0.2);
+}
+
+.brand-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.brand-badge {
+  padding: 3px 8px;
+
+  border-radius: 999px;
+
+  background: #fef08a;
+
+  border: 1px solid #d97706;
+
+  color: #854d0e;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.brand-subtitle {
+  margin-top: 2px;
+
+  color: #5e5649;
+
+  font-size: 11px;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 4px;
+
+  border: 1px solid #ddd4bf;
+
+  border-radius: 12px;
+
+  background: #faf7ee;
+}
+
+.nav-button {
+  border: 0;
+
+  padding: 9px 13px;
+
+  border-radius: 9px;
+
+  background: transparent;
+
+  color: #5e5649;
+
+  cursor: pointer;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.nav-button:hover {
+  color: #24211d;
+  background: #f3ece0;
+}
+
+.nav-button.active {
+  background: #f3ece0;
+
+  color: #24211d;
+
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.main-content {
+  flex: 1;
+}
+
+.workspace {
+  width: min(100% - 32px, 1000px);
+
+  margin: 0 auto;
+
+  padding: 48px 0 60px;
+}
+
+.upload-workspace {
+  width: min(100% - 32px, 900px);
+}
+
+
+/* =========================================================
+   INTRO
+   ========================================================= */
+
+.intro {
+  margin-bottom: 32px;
+
+  text-align: center;
+}
+
+.feature-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 6px 11px;
+
+  margin-bottom: 13px;
+
+  border: 1px solid #d97706;
+
+  border-radius: 999px;
+
+  background: #fef08a;
+
+  color: #854d0e;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.intro h1 {
+  margin: 0;
+
+  font-size: clamp(28px, 5vw, 44px);
+
+  line-height: 1.12;
+
+  letter-spacing: -1.3px;
+}
+
+.intro p {
+  max-width: 650px;
+
+  margin: 13px auto 0;
+
+  color: #5e5649;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.card {
+  padding: 24px;
+
+  border: 1px solid #ddd4bf;
+
+  border-radius: 18px;
+
+  background: #f3ece0;
+
+  box-shadow:
+    0 8px 25px rgba(36, 33, 29, 0.07);
+}
+
+.card-header {
+  margin-bottom: 18px;
+}
+
+.card-header h2,
+.result-header h2 {
+  margin: 0;
+
+  font-size: 18px;
+}
+
+.card-header p {
+  margin: 5px 0 0;
+
+  color: #5e5649;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   TEXT INPUT
+   ========================================================= */
+
+.text-input {
+  display: block;
+
+  width: 100%;
+  min-height: 280px;
+
+  padding: 18px;
+
+  resize: vertical;
+
+  border: 1px solid #ddd4bf;
+
+  border-radius: 13px;
+
+  outline: none;
+
+  background: white;
+
+  color: #24211d;
+
+  font-family: inherit;
+
+  font-size: 16px;
+
+  line-height: 1.75;
+}
+
+.text-input::placeholder {
+  color: #8b8377;
+}
+
+.text-input:focus {
+  border-color: #2d6a4f;
+
+  box-shadow:
+    0 0 0 3px rgba(45, 106, 79, 0.12);
+}
+
+.input-footer {
+  margin-top: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.text-statistics {
+  display: flex;
+  gap: 15px;
+
+  color: #5e5649;
+
+  font-size: 12px;
+}
+
+.button-group {
+  display: flex;
+  gap: 9px;
+}
+
+.primary-button,
+.secondary-button {
+  border-radius: 10px;
+
+  padding: 10px 16px;
+
+  font-family: inherit;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.primary-button {
+  border: 1px solid #2d6a4f;
+
+  background: #2d6a4f;
+
+  color: white;
+}
+
+.primary-button:hover:not(:disabled) {
+  background: #1e4d38;
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+}
+
+.secondary-button {
+  border: 1px solid #ddd4bf;
+
+  background: #faf7ee;
+
+  color: #24211d;
+}
+
+.secondary-button:hover:not(:disabled) {
+  background: #ebe2d2;
+}
+
+
+/* =========================================================
+   TEXT RESULT
+   ========================================================= */
+
+.result-card {
+  margin-top: 25px;
+}
+
+.result-label {
+  margin-bottom: 4px;
+
+  color: #2d6a4f;
+
+  font-size: 10px;
+  font-weight: 900;
+
+  letter-spacing: 1.2px;
+}
+
+.displayed-text {
+  margin-top: 18px;
+
+  padding: 20px;
+
+  border: 1px solid #ddd4bf;
+
+  border-radius: 13px;
+
+  background: white;
+
+  white-space: pre-wrap;
+
+  color: #24211d;
+
+  font-size: 17px;
+
+  line-height: 1.85;
+}
+
+
+/* =========================================================
+   FILE UPLOAD
+   ========================================================= */
+
+.drop-zone {
+  min-height: 300px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 35px;
+
+  text-align: center;
+
+  border: 2px dashed #cfc4ad;
+
+  border-radius: 16px;
+
+  background: #faf7ee;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.drop-zone:hover,
+.drop-zone.drag-over {
+  border-color: #2d6a4f;
+
+  background: #f1f8f4;
+
+  transform: scale(1.005);
+}
+
+.upload-icon {
+  width: 62px;
+  height: 62px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 16px;
+
+  border-radius: 17px;
+
+  background: #f3ece0;
+
+  border: 1px solid #ddd4bf;
+
+  color: #2d6a4f;
+
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.drop-zone h2 {
+  max-width: 650px;
+
+  margin: 0;
+
+  word-break: break-word;
+
+  font-size: 18px;
+}
+
+.drop-zone p {
+  margin: 8px 0 0;
+
+  color: #5e5649;
+
+  font-size: 12px;
+}
+
+.upload-note {
+  margin-top: 13px;
+
+  color: #854d0e;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   SELECTED FILE
+   ========================================================= */
+
+.file-information {
+  margin-top: 18px;
+
+  padding: 14px 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  border: 1px solid #ddd4bf;
+
+  border-radius: 12px;
+
+  background: #faf7ee;
+}
+
+.file-details {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  min-width: 0;
+}
+
+.file-icon {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: #2d6a4f;
+
+  color: white;
+
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.file-details > div:last-child {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+.file-details strong {
+  max-width: 500px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  font-size: 13px;
+}
+
+.file-details span {
+  margin-top: 3px;
+
+  color: #5e5649;
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   STAGE NOTE
+   ========================================================= */
+
+.stage-note {
+  margin-top: 18px;
+
+  padding: 14px 16px;
+
+  display: flex;
+  gap: 10px;
+
+  border-left: 4px solid #d97706;
+
+  border-radius: 8px;
+
+  background: #fef8d8;
+
+  color: #5e4a16;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+.stage-note strong {
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer {
+  padding: 22px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 4px;
+
+  border-top: 1px solid #ddd4bf;
+
+  background: #f3ece0;
+
+  color: #5e5649;
+
+  text-align: center;
+
+  font-size: 11px;
+}
+
+.footer strong {
+  color: #24211d;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 750px) {
+
+  .navbar {
+    flex-direction: column;
+
+    gap: 12px;
+
+    padding: 12px 16px;
+  }
+
+  .navigation {
+    width: 100%;
+
+    justify-content: center;
+  }
+
+  .nav-button {
+    flex: 1;
+
+    justify-content: center;
+  }
+
+  .workspace {
+    padding-top: 32px;
+  }
+
+  .input-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .text-statistics {
+    justify-content: center;
+  }
+
+  .button-group {
+    justify-content: stretch;
+  }
+
+  .button-group button {
+    flex: 1;
+  }
+
+  .file-information {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .file-information .secondary-button {
+    width: 100%;
+  }
+}
