@@ -18,7 +18,7 @@ app.use(express.json({ limit: '5mb' }));
 
 app.get('/', (_req, res) => {
   res.json({
-    message: 'LexiRead Stage 1 API is active.',
+    message: 'LexiRead Stage 2 API is active.',
     endpoints: {
       health: 'GET /api/health',
       upload: 'POST /api/documents/upload'
@@ -29,8 +29,8 @@ app.get('/', (_req, res) => {
 app.get('/api/health', (_req, res) => {
   res.json({
     status: 'online',
-    stage: 1,
-    service: 'LexiRead OCR API'
+    stage: 2,
+    service: 'LexiRead OCR + Simplification API'
   });
 });
 
@@ -46,7 +46,7 @@ app.use((err, _req, res, _next) => {
 
 app.listen(PORT, () => {
   console.log('==============================================');
-  console.log(` LexiRead Stage 1 API: http://localhost:${PORT}`);
+  console.log(` LexiRead Stage 2 API: http://localhost:${PORT}`);
   console.log(` Health: http://localhost:${PORT}/api/health`);
   console.log('==============================================');
 });

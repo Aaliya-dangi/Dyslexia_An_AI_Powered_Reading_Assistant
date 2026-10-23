@@ -1,57 +1,46 @@
-# LexiRead — Stage 1
+# LexiRead — Stage 2: OCR + Text Simplification
 
-This version is intentionally limited to the first working pipeline:
+Stage 2 is built directly on the Stage 1 foundation.
 
-1. Type/paste text.
-2. Display the entered text.
-3. Select or drag/drop a document.
-4. Upload the document to the backend.
-5. OCR images with Tesseract.js.
-6. Extract text from text-based PDFs with pdf-parse.
-7. Normalize common OCR formatting artifacts.
-8. Display the extracted text and basic extraction metadata.
+## Included
+- Type/paste text input
+- Image OCR with Tesseract.js
+- PDF text extraction with pdf-parse
+- Text cleaning/normalization
+- Rule-based lexical simplification
+- Long/complex sentence splitting
+- Light / Moderate / High simplification levels
+- Readability analysis
+- Re-simplification when the user changes the level
+- Original/cleaned vs simplified result display
 
-Later modules are deliberately absent from this stage:
-- simplification
-- reading view
-- pronunciation
-- visualizations
-- adaptive reading
-- reading ruler
-- settings/tools
-- authentication
-- MongoDB persistence
-- speech
-- telemetry
+## Deliberately not included yet
+- Reading ruler
+- Text-to-speech / pronunciation
+- Adaptive learning
+- Visualization
+- Understanding quiz
+- Authentication
+- Database persistence
+- Other later-stage UI modules
+
+## Dependencies
+No new frontend dependencies were added for Stage 2.
+The simplification engine uses the existing server-side JavaScript runtime and does not require an external AI API.
 
 ## Run
-
-### Backend
-
+### Server
 ```powershell
 cd server
 npm install
 npm run dev
 ```
 
-Backend runs on port 5000.
-
-### Frontend
-
-Open another terminal:
-
+### Client
 ```powershell
 cd client
 npm install
 npm run dev
 ```
 
-Frontend runs on Vite's port 5173.
-
-The Vite proxy forwards `/api/*` to `http://localhost:5000`.
-
-## OCR note
-
-Tesseract.js performs OCR on image files. PDF handling in this stage uses pdf-parse, which extracts text that is already present in a PDF.
-
-A scanned/image-only PDF needs a later PDF-rendering + OCR step; it is not honestly possible to call pdf-parse alone "OCR for scanned PDFs".
+Open the Vite URL shown by the client.
