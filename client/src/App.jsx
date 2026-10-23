@@ -1,286 +1,158 @@
-import React, { useRef, useState } from 'react';
-import {
-  submitTextDocument,
-  uploadDocument,
-  changeSimplificationLevel
-} from './api';
+import React, { useState } from 'react';
+import { ReadingSettingsProvider } from './context/ReadingSettingsContext';
+import Navbar from './components/Navbar';
+import TextInputView from './components/TextInputView';
+import FileUploadView from './components/FileUploadView';
+import ReadingView from './components/ReadingView';
+import SettingsBar from './components/SettingsBar';
+import ReadingRuler from './components/ReadingRuler';
+import { submitTextDocument, uploadDocumentFile, changeSimplificationLevel } from './services/api';
 
-const LEVELS = [
-  { id: 'light', label: 'Light', description: 'Small vocabulary changes' },
-  { id: 'moderate', label: 'Moderate', description: 'Simpler words and shorter sentences' },
-  { id: 'high', label: 'High', description: 'Strong simplification and shorter chunks' }
-];
+function MainApp() {
+  const [currentView, setCurrentView] = useState('input'); // 'input' | 'upload' | 'reading'
+  const [activeDocument, setActiveDocument] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
-function App() {
-  const [view, setView] = useState('text');
-  const [inputText, setInputText] = useState('');
-  const [document, setDocument] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [dragOver, setDragOver] = useState(false);
-  const [level, setLevel] = useState('moderate');
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const fileInputRef = useRef(null);
-
-  const handleTextSubmit = async (event) => {
-    event.preventDefault();
-    if (!inputText.trim()) return;
-
-    setIsProcessing(true);
-    setErrorMessage('');
+  // Submit plain text handler
+  const handleSubmitText = async ({ text, title, simplificationLevel }) => {
+    setIsLoading(true);
+    setErrorMessage(null);
     try {
-      const result = await submitTextDocument(inputText, level);
-      setDocument(result.document);
-    } catch (error) {
-      setErrorMessage(error.message);
+      const doc = await submitTextDocument({ text, title, simplificationLevel });
+      setActiveDocument(doc);
+      setCurrentView('reading');
+    } catch (err) {
+      console.error('Text submission error:', err);
+      setErrorMessage(err.message || 'Failed to simplify text. Please check the backend connection.');
     } finally {
-      setIsProcessing(false);
+      setIsLoading(false);
     }
   };
 
-  const handleFileSelection = (file) => {
-    if (!file) return;
-    const allowed = file.type === 'application/pdf' || file.type.startsWith('image/');
-    if (!allowed) {
-      setErrorMessage('Please select a PDF or image file.');
-      return;
-    }
-    if (file.size > 15 * 1024 * 1024) {
-      setErrorMessage('The selected file is larger than the 15 MB limit.');
-      return;
-    }
-    setSelectedFile(file);
-    setDocument(null);
-    setErrorMessage('');
-  };
-
-  const handleUpload = async () => {
-    if (!selectedFile) return;
-    setIsProcessing(true);
-    setErrorMessage('');
+  // Upload file OCR handler
+  const handleUploadFile = async ({ file, title, simplificationLevel }) => {
+    setIsLoading(true);
+    setErrorMessage(null);
     try {
-      const result = await uploadDocument(selectedFile, level);
-      setDocument(result.document);
-    } catch (error) {
-      setErrorMessage(error.message);
+      const doc = await uploadDocumentFile({ file, title, simplificationLevel });
+      setActiveDocument(doc);
+      setCurrentView('reading');
+    } catch (err) {
+      console.error('File upload error:', err);
+      setErrorMessage(err.message || 'Failed to extract text from file. Please ensure the image or PDF is clear.');
     } finally {
-      setIsProcessing(false);
+      setIsLoading(false);
     }
   };
 
-  const handleLevelChange = async (newLevel) => {
-    setLevel(newLevel);
-    if (!document?.rawText) return;
-
-    setIsProcessing(true);
-    setErrorMessage('');
+  // Re-simplify active document with updated level
+  const handleReSimplify = async (newLevel) => {
+    if (!activeDocument?._id) return;
+    setIsLoading(true);
     try {
-      const result = await changeSimplificationLevel(document.rawText, newLevel);
-      setDocument((current) => ({ ...current, ...result.document }));
-    } catch (error) {
-      setErrorMessage(error.message);
+      const updated = await changeSimplificationLevel(activeDocument._id, newLevel);
+      setActiveDocument(updated);
+    } catch (err) {
+      console.error('Re-simplification error:', err);
     } finally {
-      setIsProcessing(false);
+      setIsLoading(false);
     }
   };
-
-  const handleClear = () => {
-    setInputText('');
-    setDocument(null);
-    setErrorMessage('');
-  };
-
-  const handleRemoveFile = () => {
-    setSelectedFile(null);
-    setDocument(null);
-    if (fileInputRef.current) fileInputRef.current.value = '';
-  };
-
-  const wordCount = inputText.trim() ? inputText.trim().split(/\s+/).length : 0;
 
   return (
-    <div className="app">
-      <header className="navbar">
-        <button className="brand" onClick={() => setView('text')}>
-          <span className="brand-logo">📖</span>
-          <span>
-            <strong className="brand-name">LexiRead</strong>
-            <small className="brand-subtitle">Stage 2 — Simplification</small>
-          </span>
-        </button>
+    <div className="min-h-screen flex flex-col font-sans transition-all duration-200"
+         style={{
+           backgroundColor: 'var(--bg-main)',
+           color: 'var(--text-main)'
+         }}>
+      
+      {/* Visual Reading Focus Ruler */}
+      <ReadingRuler />
 
-        <nav className="navigation">
-          <button className={`nav-button ${view === 'text' ? 'active' : ''}`} onClick={() => setView('text')}>
-            📝 Type / Paste
-          </button>
-          <button className={`nav-button ${view === 'upload' ? 'active' : ''}`} onClick={() => setView('upload')}>
-            ⬆ Upload & OCR
-          </button>
-        </nav>
-      </header>
+      {/* Main Top Navigation Header */}
+      <Navbar
+        currentView={currentView}
+        onNavigate={(view) => setCurrentView(view)}
+        activeDocument={activeDocument}
+        isSettingsOpen={isSettingsOpen}
+        onToggleSettings={() => setIsSettingsOpen(prev => !prev)}
+      />
 
+      {/* Global Error Banner if any */}
       {errorMessage && (
-        <div className="error-banner">
-          <span>{errorMessage}</span>
-          <button onClick={() => setErrorMessage('')}>Dismiss</button>
+        <div className="max-w-4xl mx-auto mt-4 px-4 sm:px-6 w-full">
+          <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm flex items-center justify-between">
+            <span>{errorMessage}</span>
+            <button
+              onClick={() => setErrorMessage(null)}
+              className="text-xs font-bold underline ml-4 hover:opacity-75">
+              Dismiss
+            </button>
+          </div>
         </div>
       )}
 
-      <main className="main-content">
-        <section className="workspace">
-          <div className="intro">
-            <span className="feature-label">✦ Text Simplification</span>
-            <h1>Make Complex Text<br />Easier to Read</h1>
-            <p>
-              Enter text or upload a document. LexiRead extracts the text,
-              cleans it, and applies rule-based simplification at the selected level.
-            </p>
-          </div>
+      {/* Main Workspace Body */}
+      <main className="flex-1 transition-all duration-200">
+        {currentView === 'input' && (
+          <TextInputView
+            onSubmitText={handleSubmitText}
+            isLoading={isLoading}
+          />
+        )}
 
-          <div className="level-card">
-            <div>
-              <strong>Simplification Level</strong>
-              <p>Change how strongly the text is simplified.</p>
-            </div>
-            <div className="level-buttons">
-              {LEVELS.map((item) => (
-                <button
-                  key={item.id}
-                  className={level === item.id ? 'level-button active' : 'level-button'}
-                  onClick={() => handleLevelChange(item.id)}
-                  disabled={isProcessing}
-                  title={item.description}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          </div>
+        {currentView === 'upload' && (
+          <FileUploadView
+            onUploadFile={handleUploadFile}
+            isLoading={isLoading}
+          />
+        )}
 
-          {view === 'text' && (
-            <form className="card" onSubmit={handleTextSubmit}>
-              <div className="card-header">
-                <h2>Enter Your Text</h2>
-                <p>Type or paste any text you want to simplify.</p>
-              </div>
-              <textarea
-                className="text-input"
-                value={inputText}
-                onChange={(event) => setInputText(event.target.value)}
-                placeholder="Type or paste your text here..."
-              />
-              <div className="input-footer">
-                <div className="text-statistics">
-                  <span>{wordCount} words</span>
-                  <span>{inputText.length} characters</span>
-                </div>
-                <div className="button-group">
-                  <button type="button" className="secondary-button" onClick={handleClear} disabled={!inputText && !document}>
-                    Clear
-                  </button>
-                  <button type="submit" className="primary-button" disabled={!inputText.trim() || isProcessing}>
-                    {isProcessing ? 'Simplifying…' : 'Simplify Text →'}
-                  </button>
-                </div>
-              </div>
-            </form>
-          )}
-
-          {view === 'upload' && (
-            <section className="card">
-              <div className="card-header">
-                <h2>Upload a Document</h2>
-                <p>OCR/extract the text first, then simplify the extracted content.</p>
-              </div>
-              <div
-                className={`drop-zone ${dragOver ? 'drag-over' : ''}`}
-                onDragOver={(event) => { event.preventDefault(); setDragOver(true); }}
-                onDragLeave={() => setDragOver(false)}
-                onDrop={(event) => { event.preventDefault(); setDragOver(false); handleFileSelection(event.dataTransfer.files?.[0]); }}
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept=".pdf,.png,.jpg,.jpeg,.webp,.bmp,.tif,.tiff"
-                  onChange={(event) => handleFileSelection(event.target.files?.[0])}
-                  hidden
-                />
-                <div className="upload-icon">↑</div>
-                <h2>{selectedFile ? selectedFile.name : 'Click to select or drag & drop a file'}</h2>
-                <p>PDF, PNG, JPG, JPEG, WebP, BMP, TIFF — up to 15 MB</p>
-              </div>
-
-              {selectedFile && (
-                <div className="file-information">
-                  <div className="file-details">
-                    <div className="file-icon">{selectedFile.type === 'application/pdf' ? 'PDF' : 'IMG'}</div>
-                    <div>
-                      <strong>{selectedFile.name}</strong>
-                      <span>{(selectedFile.size / 1024 / 1024).toFixed(2)} MB</span>
-                    </div>
-                  </div>
-                  <button type="button" className="secondary-button" onClick={handleRemoveFile} disabled={isProcessing}>Remove</button>
-                </div>
-              )}
-
-              <div className="button-group upload-actions">
-                <button type="button" className="primary-button" onClick={handleUpload} disabled={!selectedFile || isProcessing}>
-                  {isProcessing ? 'Extracting & Simplifying…' : 'Extract & Simplify →'}
-                </button>
-              </div>
-            </section>
-          )}
-
-          {document && (
-            <section className="card result-card">
-              <div className="result-label">SIMPLIFIED RESULT</div>
-              <div className="result-heading-row">
-                <div>
-                  <h2>{document.title}</h2>
-                  <p className="result-meta">Level: {document.simplificationLevel}</p>
-                </div>
-              </div>
-
-              <div className="comparison-grid">
-                <div>
-                  <h3>Original / Cleaned Text</h3>
-                  <div className="displayed-text original-text">{document.rawText}</div>
-                </div>
-                <div>
-                  <h3>Simplified Text</h3>
-                  <div className="displayed-text">{document.simplifiedText}</div>
-                </div>
-              </div>
-
-              {document.readabilityScore && (
-                <div className="stats-row">
-                  <span>Original grade: {document.readabilityScore.originalGrade}</span>
-                  <span>New grade: {document.readabilityScore.fleschKincaidGrade}</span>
-                  <span>Grade drop: {document.readabilityScore.gradeDrop}</span>
-                  <span>Reading ease: {document.readabilityScore.fleschReadingEase}</span>
-                </div>
-              )}
-            </section>
-          )}
-
-          <div className="stage-note">
-            <strong>Stage 2</strong>
-            <span>
-              Stage 1 text input, file upload, OCR/PDF extraction and text cleaning are retained.
-              This stage adds rule-based lexical simplification, sentence splitting, readability analysis,
-              and live re-simplification when Light, Moderate or High is selected.
-            </span>
-          </div>
-        </section>
+        {currentView === 'reading' && activeDocument && (
+          <ReadingView
+            document={activeDocument}
+            onBack={() => setCurrentView('input')}
+            onReSimplify={handleReSimplify}
+            onOpenSettings={() => setIsSettingsOpen(true)}
+          />
+        )}
       </main>
 
-      <footer className="footer">
-        <strong>Dyslexia-Friendly Reading Assistant</strong>
-        <span>Final Year B.E. Project (CSE)</span>
+      {/* Dyslexia Settings & Tools Drawer */}
+      <SettingsBar
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        activeDocument={activeDocument}
+        onReSimplify={handleReSimplify}
+      />
+
+      {/* Footer */}
+      <footer className="border-t py-6 text-center text-xs opacity-75 transition-all duration-200"
+              style={{
+                backgroundColor: 'var(--card-bg)',
+                borderColor: 'var(--border-color)',
+                color: 'var(--text-muted)'
+              }}>
+        <div className="max-w-7xl mx-auto px-4">
+          <p className="font-semibold">
+            An Intelligent AI-Powered Dyslexia-Friendly Reading Assistant with Real-Time Adaptive Support
+          </p>
+          <p className="mt-1">
+            Final Year B.E. Project (CSE) — Anjuman Institute of Technology & Management (AITM), Bhatkal
+          </p>
+        </div>
       </footer>
+
     </div>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <ReadingSettingsProvider>
+      <MainApp />
+    </ReadingSettingsProvider>
+  );
+}

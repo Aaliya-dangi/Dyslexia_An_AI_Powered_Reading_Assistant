@@ -1,0 +1,232 @@
+/* =========================================================
+   UNDERSTANDING CHECK (10-QUESTION MINI-QUIZ) STYLES
+   Dyslexia-Optimized Passage Comprehension Check
+   Fun, Calm, Supportive, Accessible, 100% Local
+   ========================================================= */
+
+.understanding-check-card {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Calm fade-in animation */
+@keyframes ucFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.uc-animated-fade-in {
+  animation: ucFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Progress bar */
+.uc-progress-track {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  height: 8px;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.uc-progress-fill {
+  background-color: var(--accent-color);
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Step Dots Container */
+.uc-step-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.uc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background-color: var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.uc-dot.uc-dot-active {
+  background-color: var(--accent-color);
+  transform: scale(1.3);
+}
+
+.uc-dot.uc-dot-completed {
+  background-color: var(--accent-color);
+  opacity: 0.7;
+}
+
+/* Question Option Choice Button */
+.uc-option-btn {
+  background-color: var(--bg-main);
+  border: 2px solid var(--border-color);
+  color: var(--text-main);
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  text-align: left;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  position: relative;
+}
+
+.uc-option-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--accent-color);
+  box-shadow: 0 6px 14px -2px rgba(0, 0, 0, 0.08);
+}
+
+.uc-option-btn:focus-visible {
+  outline: 2.5px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* Option Letter Badge */
+.uc-option-letter {
+  background-color: var(--card-bg);
+  border: 1.5px solid var(--border-color);
+  color: var(--text-main);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+/* Correct Answer State */
+.uc-option-btn.uc-option-correct {
+  border-color: #16A34A !important;
+  background-color: rgba(220, 252, 231, 0.45) !important;
+  box-shadow: 0 0 0 1px #16A34A, 0 4px 12px rgba(22, 163, 74, 0.15);
+}
+
+.uc-option-btn.uc-option-correct .uc-option-letter {
+  background-color: #16A34A;
+  color: #FFFFFF;
+  border-color: #16A34A;
+}
+
+/* Incorrect Answer State */
+.uc-option-btn.uc-option-incorrect {
+  border-color: #D97706 !important;
+  background-color: rgba(254, 243, 199, 0.45) !important;
+  box-shadow: 0 0 0 1px #D97706;
+}
+
+.uc-option-btn.uc-option-incorrect .uc-option-letter {
+  background-color: #D97706;
+  color: #FFFFFF;
+  border-color: #D97706;
+}
+
+/* Revealed Correct Option when user was incorrect */
+.uc-option-btn.uc-option-revealed-correct {
+  border-color: #16A34A !important;
+  background-color: rgba(220, 252, 231, 0.25) !important;
+  border-style: dashed;
+}
+
+/* Reading Assistance & Hint Buttons */
+.uc-tool-btn {
+  background-color: var(--bg-main);
+  border: 1.5px solid var(--border-color);
+  color: var(--text-main);
+  transition: all 0.2s ease;
+}
+
+.uc-tool-btn:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-1px);
+}
+
+/* Hint Box */
+.uc-hint-box {
+  background-color: var(--flag-bg);
+  border: 1.5px solid var(--flag-border);
+  color: var(--flag-text);
+  border-radius: 1rem;
+  padding: 0.85rem 1.15rem;
+}
+
+/* Show Me Where Evidence Box */
+.uc-evidence-box {
+  background-color: var(--bg-main);
+  border: 1.5px solid var(--border-color);
+  color: var(--text-main);
+  border-radius: 1rem;
+  padding: 0.85rem 1.15rem;
+}
+
+.uc-evidence-highlight {
+  background-color: rgba(254, 240, 138, 0.45);
+  color: inherit;
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.35rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--accent-color);
+}
+
+/* Gentle Feedback Boxes */
+.uc-feedback-correct {
+  background-color: rgba(220, 252, 231, 0.5);
+  border: 1.5px solid #16A34A;
+  color: #14532D;
+}
+
+.uc-feedback-incorrect {
+  background-color: rgba(254, 243, 199, 0.5);
+  border: 1.5px solid #D97706;
+  color: #78350F;
+}
+
+/* Results Card & Stat Pills */
+.uc-results-card {
+  background-color: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 1.5rem;
+}
+
+.uc-stat-pill {
+  background-color: var(--bg-main);
+  border: 1.5px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Respect user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .uc-animated-fade-in,
+  .uc-progress-fill,
+  .uc-dot {
+    animation: none !important;
+    transition: none !important;
+  }
+  .uc-option-btn,
+  .uc-tool-btn {
+    transition: none !important;
+  }
+}

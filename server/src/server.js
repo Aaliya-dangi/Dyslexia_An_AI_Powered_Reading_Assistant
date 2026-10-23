@@ -1,52 +1,61 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import documentRoutes from './routes/document.routes.js';
+import apiRoutes from './routes/index.js';
+import { connectDB } from './config/db.js';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Connect Database (MongoDB or memory fallback)
+connectDB();
+
+// Middleware
 app.use(cors({
   origin: '*',
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-app.use(express.json({ limit: '5mb' }));
+app.use(express.json({ limit: '25mb' }));
+app.use(express.urlencoded({ extended: true, limit: '25mb' }));
 
-app.get('/', (_req, res) => {
+// Mount API routes
+app.use('/api', apiRoutes);
+
+// Root greeting
+app.get('/', (req, res) => {
   res.json({
-    message: 'LexiRead Stage 2 API is active.',
+    message: 'Dyslexia-Friendly Reading Assistant API is active.',
     endpoints: {
-      health: 'GET /api/health',
-      upload: 'POST /api/documents/upload'
+      health: '/api/health',
+      submitText: 'POST /api/documents/text',
+      uploadDocument: 'POST /api/documents/upload',
+      listDocuments: 'GET /api/documents',
+      getDocument: 'GET /api/documents/:id',
+      simplify: 'POST /api/documents/:id/simplify',
+      visualize: 'POST /api/documents/:id/visualize',
+      speechTTS: 'POST /api/speech/tts',
+      speechSTT: 'POST /api/speech/stt',
+      sessionEvents: 'POST /api/sessions/:documentId/event'
     }
   });
 });
 
-app.get('/api/health', (_req, res) => {
-  res.json({
-    status: 'online',
-    stage: 2,
-    service: 'LexiRead OCR + Simplification API'
-  });
-});
-
-app.use('/api/documents', documentRoutes);
-
-app.use((err, _req, res, _next) => {
+// Global Error Handler
+app.use((err, req, res, next) => {
   console.error('[ServerError]', err);
   res.status(err.status || 500).json({
     success: false,
-    error: err.message || 'Internal server error'
+    error: err.message || 'Internal Server Error'
   });
 });
 
 app.listen(PORT, () => {
-  console.log('==============================================');
-  console.log(` LexiRead Stage 2 API: http://localhost:${PORT}`);
-  console.log(` Health: http://localhost:${PORT}/api/health`);
-  console.log('==============================================');
+  console.log(`====================================================`);
+  console.log(` Dyslexia Reading Assistant Server is running on port ${PORT}`);
+  console.log(` Health check: http://localhost:${PORT}/api/health`);
+  console.log(`====================================================`);
 });

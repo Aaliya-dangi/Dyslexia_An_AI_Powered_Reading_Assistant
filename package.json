@@ -1,0 +1,28 @@
+{
+  "name": "dyslexia-reading-assistant",
+  "version": "1.0.0",
+  "description": "An Intelligent AI-Powered Dyslexia-Friendly Reading Assistant with Real-Time Adaptive Support",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "start": "npm --prefix server start",
+    "install:all": "npm install && npm --prefix server install && npm --prefix client install",
+    "build:client": "npm --prefix client run build",
+    "build:server": "npm --prefix server run build"
+  },
+  "keywords": [
+    "dyslexia",
+    "reading-assistant",
+    "accessibility",
+    "ocr",
+    "nlp-simplification",
+    "tts"
+  ],
+  "author": "AITM CSE Final Year Project Team",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "name": "dyslexia-reading-assistant-server",
   "version": "1.0.0",
-  "description": "Stage 1 backend for document upload and OCR extraction",
+  "description": "Backend API for Dyslexia-Friendly Reading Assistant",
   "main": "src/server.js",
   "type": "module",
   "scripts": {
@@ -12,6 +12,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "mongoose": "^8.9.5",
     "multer": "^1.4.5-lts.1",
     "pdf-parse": "^1.1.1",
     "tesseract.js": "^5.1.1"

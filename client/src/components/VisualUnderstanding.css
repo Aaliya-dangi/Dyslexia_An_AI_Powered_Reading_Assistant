@@ -1,0 +1,252 @@
+/* =========================================================
+   VISUAL UNDERSTANDING ENHANCED STYLES (SECTION-BASED + FOCUS READING)
+   Dyslexia-Optimized Mind Map, Flow, Cause & Effect, Cycle, Focus Reading
+   SEE -> FOCUS -> READ -> LISTEN -> UNDERSTAND
+   ========================================================= */
+
+.visual-understanding-card {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Calm fade-in animation */
+@keyframes vuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vu-animated-fade-in {
+  animation: vuFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Base Diagram Node Box */
+.vu-node-box {
+  background-color: var(--bg-main);
+  border: 2px solid var(--border-color);
+  color: var(--text-main);
+  transition: transform 0.2s ease, border-color 0.2s ease, opacity 0.25s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.vu-node-box:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-color);
+  box-shadow: 0 6px 16px -2px rgba(0, 0, 0, 0.08);
+}
+
+/* Focused Selected Section / Node */
+.vu-node-box.vu-node-focused,
+.vu-section-card.vu-node-focused {
+  border-color: var(--accent-color) !important;
+  outline: 2.5px solid var(--accent-color);
+  outline-offset: 2px;
+  background-color: var(--card-hover) !important;
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px -2px rgba(0, 0, 0, 0.12);
+  z-index: 10;
+}
+
+/* Dimmed Unrelated Nodes in Visual Focus Mode */
+.vu-node-box.vu-node-dimmed,
+.vu-section-card.vu-node-dimmed {
+  opacity: 0.50;
+  filter: saturate(0.85);
+}
+
+.vu-node-box.vu-node-dimmed:hover,
+.vu-section-card.vu-node-dimmed:hover {
+  opacity: 0.95;
+  filter: saturate(1);
+}
+
+/* Section Branch Card in Mind Map */
+.vu-section-card {
+  background-color: var(--card-bg);
+  border: 2px solid var(--border-color);
+  color: var(--text-main);
+  transition: all 0.2s ease;
+}
+
+.vu-section-card:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+/* Mind Map Central Topic Node */
+.vu-mindmap-center-node {
+  background-color: var(--accent-color);
+  color: var(--accent-text);
+  border: 3px solid var(--border-color);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.16);
+  transition: transform 0.2s ease;
+}
+
+.vu-mindmap-center-node:hover {
+  transform: scale(1.02);
+}
+
+/* Section Number Badge */
+.vu-section-badge {
+  background-color: var(--accent-color);
+  color: var(--accent-text);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+/* Concept Pill inside Section */
+.vu-concept-pill {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+}
+
+/* Section Navigation Bar */
+.vu-section-nav {
+  background-color: var(--bg-main);
+  border: 1.5px solid var(--border-color);
+}
+
+/* Animated connector line */
+@keyframes vuPulseDash {
+  0% {
+    stroke-dashoffset: 24;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.vu-arrow-connector-line {
+  stroke-dasharray: 6 4;
+  animation: vuPulseDash 1.8s linear infinite;
+}
+
+/* Sound wave animation while audio is speaking */
+@keyframes vuSoundWave {
+  0%, 100% {
+    transform: scaleY(0.4);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.vu-sound-bar {
+  animation: vuSoundWave 0.6s ease-in-out infinite alternate;
+}
+
+/* =========================================================
+   🎯 FOCUS READING MODE PANEL STYLING
+   Calm, large readable typography, zero visual clutter
+   ========================================================= */
+
+.vu-focus-reading-panel {
+  background-color: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.08);
+  max-width: 48rem;
+  margin: 0 auto;
+  transition: all 0.2s ease;
+}
+
+.vu-focus-key-idea-box {
+  background-color: var(--flag-bg);
+  border-left: 4px solid var(--flag-border);
+  color: var(--flag-text);
+  padding: 0.85rem 1.15rem;
+  border-radius: 0.75rem;
+}
+
+.vu-focus-body-text {
+  font-size: 1.15rem;
+  line-height: 1.95;
+  letter-spacing: 0.015em;
+  color: var(--text-main);
+}
+
+/* Cause & Effect Stage Column */
+.vu-cause-effect-col {
+  background-color: var(--card-bg);
+  border: 1.5px solid var(--border-color);
+  border-radius: 1rem;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+/* Key Points Bullet Item */
+.vu-key-point-card {
+  background-color: var(--bg-main);
+  border: 1.5px solid var(--border-color);
+  transition: all 0.18s ease;
+}
+
+.vu-key-point-card:hover {
+  border-color: var(--accent-color);
+  transform: translateX(2px);
+}
+
+/* Important Term Pill */
+.vu-term-card {
+  background-color: var(--bg-main);
+  border: 1.5px solid var(--border-color);
+  transition: all 0.18s ease;
+}
+
+.vu-term-card:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-1px);
+}
+
+/* Explanation & Summary Highlight Card */
+.vu-explanation-box {
+  background-color: var(--card-bg);
+  border: 1.5px solid var(--border-color);
+  border-left: 5px solid var(--accent-color);
+}
+
+.vu-summary-box {
+  background-color: var(--flag-bg);
+  border: 1.5px solid var(--flag-border);
+  color: var(--flag-text);
+}
+
+/* Mode Switcher Tabs */
+.vu-mode-tab {
+  transition: all 0.18s ease;
+}
+
+.vu-mode-tab:hover {
+  transform: translateY(-1px);
+}
+
+/* Cycle Return Banner */
+.vu-cycle-loop-banner {
+  background-color: var(--bg-main);
+  border: 1.5px dashed var(--accent-color);
+  color: var(--text-main);
+}
+
+/* Respect user's motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .vu-arrow-connector-line,
+  .vu-sound-bar,
+  .vu-animated-fade-in {
+    animation: none !important;
+  }
+  .vu-node-box,
+  .vu-section-card,
+  .vu-mode-tab,
+  .vu-key-point-card,
+  .vu-term-card,
+  .vu-focus-reading-panel {
+    transition: none !important;
+  }
+}
