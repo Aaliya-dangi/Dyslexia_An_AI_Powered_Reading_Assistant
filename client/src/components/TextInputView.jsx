@@ -63,9 +63,11 @@ export default function TextInputView({ onSubmitText, isLoading }) {
         <h1 className="text-2xl sm:text-4xl font-black tracking-tight">
           Transform Dense Content Into Accessible Reading
         </h1>
-        <p className="text-sm sm:text-base opacity-80 max-w-2xl mx-auto leading-relaxed">
-          Type or paste text below, or pick a sample passage. Our rule-based NLP simplifies complex sentences, decomposes multi-syllable terms, and formats everything for comfortable reading.
-        </p>
+          <p className="text-sm sm:text-base opacity-80 max-w-2xl mx-auto leading-relaxed">
+            Type or paste text below, or pick a sample passage. Our AI-based NLP
+            engine adapts the vocabulary and sentence structure according to the
+            selected simplification intensity.
+          </p>
       </div>
 
       {/* Preset Sample Text Cards */}

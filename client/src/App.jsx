@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ReadingSettingsProvider } from './context/ReadingSettingsContext';
+import { ReadingSettingsProvider, useReadingSettings } from './context/ReadingSettingsContext';
 import Navbar from './components/Navbar';
 import TextInputView from './components/TextInputView';
 import FileUploadView from './components/FileUploadView';

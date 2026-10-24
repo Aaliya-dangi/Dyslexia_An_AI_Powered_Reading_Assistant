@@ -19,6 +19,12 @@ export const CONTRAST_MODES = [
   { id: 'high', name: 'High (Sharp)', desc: 'Bold borders and maximum definition' },
 ];
 
+export const WORD_SPEED_PRESETS = [
+  { id: 'ultra-slow', value: 0.45, label: '0.45x Ultra-Slow', desc: 'Syllable-paced deliberate enunciation' },
+  { id: 'slow', value: 0.60, label: '0.60x Slow & Clear', desc: 'Standard dyslexia phonological speed (Recommended)' },
+  { id: 'moderate', value: 0.80, label: '0.80x Moderate', desc: 'Comfortable natural pace' }
+];
+
 const DEFAULT_SETTINGS = {
   font: 'OpenDyslexic',
   fontSize: 20,
@@ -31,7 +37,11 @@ const DEFAULT_SETTINGS = {
   rulerHeight: 56,
   bionicMode: false,
   syllableDots: false,
-  simplificationLevel: 'moderate'
+  simplificationLevel: 'moderate',
+  speechRate: 0.9,
+  wordAudioSpeed: 0.60, // Slow clear speed for word-level pronunciation assistance
+  speechPitch: 1.0,
+  ttsHighlight: true
 };
 
 export function ReadingSettingsProvider({ children }) {
@@ -86,6 +96,7 @@ export function ReadingSettingsProvider({ children }) {
       resetDefaults,
       THEME_PRESETS,
       CONTRAST_MODES,
+      WORD_SPEED_PRESETS
     }}>
       {children}
     </ReadingSettingsContext.Provider>

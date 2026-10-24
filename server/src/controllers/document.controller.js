@@ -57,7 +57,7 @@ export async function submitTextDocument(req, res) {
       });
     }
 
-    const processed = processTextPipeline(text, simplificationLevel);
+    const processed = await processTextPipeline(text, simplificationLevel);
     const docTitle = title?.trim() || deriveDocumentTitle(text);
 
     const docData = {
@@ -124,7 +124,7 @@ export async function uploadDocument(req, res) {
       });
     }
 
-    const processed = processTextPipeline(rawText, simplificationLevel);
+    const processed = await processTextPipeline(rawText, simplificationLevel);
     const docTitle = title?.trim() || deriveDocumentTitle(rawText, file.originalname);
 
     const docData = {
@@ -206,7 +206,7 @@ export async function reSimplifyDocument(req, res) {
       });
     }
 
-    const processed = processTextPipeline(doc.rawText, simplificationLevel);
+    const processed = await processTextPipeline(doc.rawText, simplificationLevel);
 
     const updates = {
       simplificationLevel,
